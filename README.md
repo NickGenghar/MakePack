@@ -2,8 +2,22 @@
 A PowerShell script that helps you create, build and deploy Minecraft packs.
 
 Go and have a try with this script. More information coming soon.
-## Documentation:
 
+## Downloading And Installing:
+1. Click the "Clone or Download" option,
+2. Choose "Download as ZIP",
+3. Extract ZIP content,
+4. Copy/Move both MakePack.ps1 and manifestTemplate.json to your root directory of your working folder.
+
+You have completed the installation setup.
+## Usage
+On VS Code:
+1. Open Code,
+2. Click on "Terminal",
+3. Click "New terminal",
+4. Make sure the terminal created is PowerShell terminal, otherwise;
+5. Type "powershell" in the Terminal.
+## Documentation:
 Options available:
 1. Create Minecraft Pack Project
 2. Export Minecraft Pack Project
