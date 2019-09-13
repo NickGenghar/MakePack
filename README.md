@@ -31,4 +31,4 @@ Pack type; Default is "R", Accepted value:
 
 ---
 
-`To be implemented in the future...`
+`More documentations to be implemented in the future...`
