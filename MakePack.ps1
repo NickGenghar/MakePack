@@ -133,8 +133,8 @@ while ($true) {
             $DeployReplace = Read-Host
             if($DeployReplace -match 'y' -or $DeployReplace -match 'Y') {
                 #Removes the folder in Minecraft directory to ensure perfect pack updating.
-                Remove-Item -Path "$MinecraftDir$PackDevelopement$PackFolder$DeployPack\" -Force
-                return Copy-Item -Path "$DeployPack" -Destination "$MinecraftDir$PackDevelopement$PackFolder$DeployPack\" - Recurse -Force
+                Remove-Item -Path "$MinecraftDir$PackDevelopement$PackFolder$DeployPack\" -Recurse -Force
+                return Copy-Item -Path "$DeployPack" -Destination "$MinecraftDir$PackDevelopement$PackFolder$DeployPack\" -Recurse -Force
             } else {
                 #Returns an error callback if user choose not to replace it.
                 return $Callback = "Pack failed to deployed. Pack folder already exist in target directory."
