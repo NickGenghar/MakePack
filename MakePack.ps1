@@ -22,7 +22,7 @@ while ($true) {
     #Project creating
     if ($Options -match 'c' -or $Options -match 'C') {
         #Checks if template exist
-        if(Get-Content -Path 'manifestTemplate.json') {
+        if(Get-Content -Path "$PSScriptRoot\template\manifest.json") {
 
             #Generates UUID for the pack
             $NewUUID1 = New-Guid
@@ -45,7 +45,7 @@ while ($true) {
 
             #Create the pack manifest from temmplate
             New-Item -Path "$PackDir\manifest.json" -Force
-            Copy-Item -Path 'ManifestTemplate.json' -Destination "$PackDir\manifest.json" -Recurse -Force
+            Copy-Item -Path "$PSScriptRoot\template\manifest.json" -Destination "$PackDir\manifest.json" -Recurse -Force
 
             #Starts mapping the values to manifest
             (Get-Content -Path "$PackDir\manifest.json") | ForEach-Object {$_.Replace('UUID1', $NewUUID1).Replace('UUID2', $NewUUID2).Replace('NAME', $PackName).Replace('DESCRIPTION', $PackDesc).Replace('TYPE', $PackTyper)} | Set-Content -Path "$PackDir\manifest.json"
@@ -73,7 +73,7 @@ while ($true) {
         }
 
         Compress-Archive -Path "$Source\*" -CompressionLevel Optimal -DestinationPath "$Destination\$Pack.zip"
-        Copy-Item -Path "$Destination\$Pack.zip" -Destination "$Destination\$Pack.mcpack"
+        Rename-Item -Path "$Destination\$Pack.zip" -NewName "$Pack.mcpack"
 
         #Callbacks as a process indicator.
         #Useful for giving the user feedback on the completed task.
@@ -92,17 +92,15 @@ while ($true) {
         $DeployPack = Read-Host 'Choose target pack directory'
 
         Write-Host ''
-        Write-Host "Pack type?"
+        Write-Host "Pack type? (Default: Resource)"
         Write-Host "[B] Behavior"
         Write-Host "[R] Resource"
         $DeployType = Read-Host
         
         if($DeployType -match 'b' -or $DeployType -match 'B') {
             $PackFolder = 'behavior_packs\'
-        } elseif($DeployType -match 'r' -or $DeployType -match 'R') {
-            $PackFolder = 'resource_packs\'
         } else {
-            return $Callback = "Pack type not specified. You must specify pack type to avoid pack type mismatch."
+            $PackFolder = 'resource_packs\'
         }
 
         Write-Host ''
