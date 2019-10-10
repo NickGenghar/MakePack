@@ -147,6 +147,8 @@ while ($true) {
         Exit
     }
 
+    else { $Callback = "Provided option is empty or invalid." }
+
     #Once all the task completed, we give a final request to check whether the user wants to continue using this script.
     Write-Output $Callback,"Would you like to do more?","[Y] Yes","[N] No"
     $Options = Read-Host
