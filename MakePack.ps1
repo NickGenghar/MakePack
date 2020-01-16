@@ -108,12 +108,27 @@ while ($true) {
             if(!$Destination) {
                 Write-Host "Warning! Destination not specified. Exporting file to root directory instead."
                 $Destination = $PSScriptRoot
-            } elseif(Test-Path -Path $Destination) {} else {
+            } elseif(!(Test-Path -Path $Destination)) {
                 New-Item -Path "$Destination" -ItemType Directory
             }
 
-            Compress-Archive -Path "$Source\*" -CompressionLevel Optimal -DestinationPath "$Destination\$Pack.zip"
-            Rename-Item -Path "$Destination\$Pack.zip" -NewName "$Pack.mcpack"
+            if(Test-Path -Path "$Destination\$Pack.mcpack") {
+                Write-Host "Package exist in target directory. Replace?"
+                Write-Host "[Y] Yes"
+                Write-Host "[N] No"
+                $ReplacePack = Read-Host
+                if($ReplacePack -match 'y' -or $ReplacePack -match 'Y') {
+                    Remove-Item -Path "$Destination\$Pack.mcpack" -Recurse -Force
+                    Compress-Archive -Path "$Source\*" -CompressionLevel Optimal -DestinationPath "$Destination\$Pack.zip"
+                    Rename-Item -Path "$Destination\$Pack.zip" -NewName "$Pack.mcpack"
+                } else {
+                    $Callback = "Failed to create pack: Pack already exist."
+                    break
+                }
+            } else {
+                Compress-Archive -Path "$Source\*" -CompressionLevel Optimal -DestinationPath "$Destination\$Pack.zip"
+                Rename-Item -Path "$Destination\$Pack.zip" -NewName "$Pack.mcpack"
+            }
 
             #Callbacks as a process indicator.
             #Useful for giving the user feedback on the completed task.
