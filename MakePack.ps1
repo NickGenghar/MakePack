@@ -1,3 +1,5 @@
+Import-Module -Name ".\modules\create.psm1"
+
 Clear-Host
 Write-Host "Welcome to MakePack! A PowerShell Script powered Minecraft Pack Builder."
 Write-Host "Start building your Minecraft addons or resource packs instantly with this quick tool."
